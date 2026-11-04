@@ -1,0 +1,85 @@
+# EXPERIMENT 10: Study Multiple Processes and Stack Memory Addresses in Linux
+
+## Aim
+To create multiple instances of a C program simultaneously in Linux and observe their Process IDs (PID) and stack variable memory addresses.
+
+### Objectives
+- To understand the concept of processes in Linux.
+- To compile and execute a C program using GCC.
+- To create multiple instances of a program simultaneously.
+- To understand Process ID (PID).
+- To observe stack variable memory addresses.
+- To learn background process execution using the `&` operator.
+- To monitor background processes using the `jobs` command.
+
+## Program
+
+**File Name: addr.c**
+
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    int stack_var = 42;
+
+    printf("PID: %d  Stack variable address: %p\n", getpid(), (void *)&stack_var);
+
+    fflush(stdout);
+
+    while (1) {
+        sleep(1);
+    }
+
+    return 0;
+}
+```
+
+## Compilation
+
+The following command is used to compile the C program:
+
+```bash
+gcc addr.c -o addr
+```
+
+**Explanation:**
+- `gcc` is the GNU C Compiler.
+- `addr.c` is the source file.
+- `-o addr` specifies the name of the executable file.
+
+## Execution of Multiple Processes
+
+The following commands execute four instances of the program in the background:
+
+```bash
+./addr &
+./addr &
+./addr &
+./addr &
+```
+
+**Explanation:**
+- `./addr` executes the compiled program.
+- `&` runs the program in the background.
+- Four separate instances of the program are created.
+
+## Process Information
+
+```bash
+sleep 1
+jobs
+```
+
+**Explanation:**
+- `sleep 1` pauses execution for one second.
+- `jobs` displays the background jobs running in the current shell.
+
+## Expected Output
+
+Each process displays its own Process ID (PID) and the memory address of its stack variable.
+
+```text
+PID: 1234  Stack variable address: 0x7ffd12345678
+PID: 1235  Stack variable address: 0x7ffe23456789
+PID: 1236  Stack variable
